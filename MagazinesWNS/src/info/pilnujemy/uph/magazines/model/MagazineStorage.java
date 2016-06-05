@@ -9,11 +9,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Pattern;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+/**
+ * Klasa stanowiąca magazyn danych o czasopismach
+ * 
+ * @author andrzej
+ *
+ */
 public class MagazineStorage {
 
 	private Path path;
@@ -21,9 +24,9 @@ public class MagazineStorage {
 	private String COLUMN_SEPERATOR = "@@###@@";
 
 	public MagazineStorage() {
-		path = Paths.get("data.txt").toAbsolutePath();
-//		mElements.addAll(FakeData.LIST_OF_MAGAZINES);
-//		saveStorage();
+		path = Paths.get("data.txt")
+				.toAbsolutePath();
+
 		parseFile();
 	}
 
@@ -40,6 +43,9 @@ public class MagazineStorage {
 		}
 	}
 
+	/**
+	 * Zapisuje aktualny stan magazynu do pliku
+	 */
 	public void saveStorage() {
 		System.out.println("saveStorage");
 		try {
@@ -47,12 +53,20 @@ public class MagazineStorage {
 					.map(t -> t.getTitle() + COLUMN_SEPERATOR + t.getNo() + COLUMN_SEPERATOR + t.getYear())
 					.collect(Collectors.toList());
 			Files.write(path, lines, StandardOpenOption.TRUNCATE_EXISTING);
-			mElements.stream().forEach(System.out::println);
+			mElements.stream()
+					.forEach(System.out::println);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Dodaje element do pamieci i zapisuje zmiany na dysku
+	 * 
+	 * @param e
+	 *            obiekt do zapisania
+	 * @return jeśli zaszły zmiany to true
+	 */
 	public boolean add(Magazine e) {
 		boolean r = mElements.add(e);
 		if (r) {
@@ -61,6 +75,13 @@ public class MagazineStorage {
 		return r;
 	}
 
+	/**
+	 * Kasuje element z pamieci i zapisuje zmiany na dysku
+	 * 
+	 * @param o
+	 *            obiekt do skasowania
+	 * @return jeśli zaszły zmiany to true
+	 */
 	public boolean remove(Magazine o) {
 		boolean r = mElements.remove(o);
 		if (r) {
@@ -69,6 +90,13 @@ public class MagazineStorage {
 		return r;
 	}
 
+	/**
+	 * Dodaje kolekcje elementów z pamięci i zapisuje plik
+	 * 
+	 * @param c
+	 *            kolekcja do dodania
+	 * @return jeśli zaszły zmiany to true
+	 */
 	public boolean addAll(Collection<? extends Magazine> c) {
 		boolean r = mElements.addAll(c);
 		if (r) {
@@ -77,28 +105,55 @@ public class MagazineStorage {
 		return r;
 	}
 
+	/**
+	 * Kasuje kolekcje elementów z pamięci i zapisuje plik
+	 * 
+	 * @param c
+	 *            kolekcja do skasowania
+	 * @return jeśli zaszły zmiany to true
+	 */
 	public boolean removeAll(Collection<? extends Magazine> c) {
-		for(Magazine m:c){
+		for (Magazine m : c) {
 			this.remove(m);
 		}
 		return true;
 	}
 
+	/**
+	 * Kasuje wszystkie zmiany i zapisuje plik
+	 */
 	public void clear() {
 		mElements.clear();
 		saveStorage();
 	}
 
+	/**
+	 * Kasuje wszystkie elementy z pamięci i zastępuje je elementami z listy `c`
+	 * 
+	 * @param c
+	 *            lita do ustawienia
+	 * 
+	 */
 	public void setElements(List<Magazine> c) {
 		mElements.clear();
 		mElements.addAll(c);
 		saveStorage();
 	}
 
+	/**
+	 * Zwraca wszystkie elementy w pamięci w formie niemodyfikowalnej listy.
+	 * 
+	 * @return lista elementów w pamięci
+	 */
 	public List<Magazine> getAll() {
 		return Collections.unmodifiableList(mElements);
 	}
 
+	/**
+	 * Zwraca tablicę unikalny tytułów posortowanych alfabetycznie
+	 * 
+	 * @return tablica tytułów
+	 */
 	public String[] getAllUniquesTitles() {
 		return mElements.stream()
 				.map(t -> t.getTitle())

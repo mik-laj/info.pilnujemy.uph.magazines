@@ -14,12 +14,7 @@ public class CountByTitle implements StatsStrategy {
 
 	public CountByTitle(List<Magazine> all) {
 		Map<String, Long> stats_map = all.stream()
-				.collect(
-						Collectors.groupingBy(
-								Magazine::getTitle, 
-								Collectors.counting()
-						)
-				);
+				.collect(Collectors.groupingBy(Magazine::getTitle, Collectors.counting()));
 
 		elements = stats_map.entrySet()
 				.stream()

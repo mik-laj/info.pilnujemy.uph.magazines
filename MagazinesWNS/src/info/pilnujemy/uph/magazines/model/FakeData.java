@@ -1,14 +1,21 @@
 package info.pilnujemy.uph.magazines.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Fałszywe dane
+ * 
+ * @author andrzej
+ *
+ */
 public class FakeData {
-
+	/**
+	 * Liste 200 czasopism.
+	 */
 	public static final List<Magazine> LIST_OF_MAGAZINES;
-	static{
+	static {
 		ArrayList<Magazine> list = new ArrayList<>(200);
 		list.add(new Magazine("Codziennik feministyczny", 7, 1987));
 		list.add(new Magazine("Furia", 1, 1986));

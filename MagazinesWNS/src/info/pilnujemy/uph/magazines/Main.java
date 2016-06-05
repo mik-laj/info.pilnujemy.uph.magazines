@@ -2,9 +2,15 @@ package info.pilnujemy.uph.magazines;
 
 import java.awt.EventQueue;
 
+/**
+ * Kod uruchamiający aplikacje
+ * 
+ * @author andrzej
+ *
+ */
 public class Main {
 	/**
-	 * Launch the application.
+	 * Uruchamia aplikacje
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

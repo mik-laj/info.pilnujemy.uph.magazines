@@ -29,6 +29,12 @@ import info.pilnujemy.uph.magazines.stats.CountByTitle;
 import info.pilnujemy.uph.magazines.stats.CountByYear;
 import info.pilnujemy.uph.magazines.view.PlaceholderTextField;
 
+/**
+ * Główne okno aplikacji zawierające listę czasopism
+ * 
+ * @author andrzej
+ *
+ */
 public class ListFrame extends JFrame implements DocumentListener {
 
 	private PlaceholderTextField tfSearch;
@@ -71,6 +77,9 @@ public class ListFrame extends JFrame implements DocumentListener {
 				.addDocumentListener(this);
 	}
 
+	/**
+	 * Tworzy interfejs graficzny okna
+	 */
 	private void createUi() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 650, 600);
@@ -88,7 +97,7 @@ public class ListFrame extends JFrame implements DocumentListener {
 
 		tfSearch.setMargin(new Insets(5, 5, 5, 5));
 		tfSearch.setColumns(10);
-		tfSearch.setPlaceholder("Kryterium wyszukiwania np. tytul:*kotek* no:>10 year:<20");
+		tfSearch.setPlaceholder("Kryterium wyszukiwania np. tytul:\"*kotek*\" no:>10 year:<2000");
 		pTop.add(tfSearch);
 
 		// Main Panel
@@ -143,7 +152,7 @@ public class ListFrame extends JFrame implements DocumentListener {
 		tTable.setFillsViewportHeight(true);
 		tTable.setAutoCreateRowSorter(true);
 		tTable.setCellSelectionEnabled(false);
-		
+
 		TableColumnModel columnModel = tTable.getColumnModel();
 		columnModel.getColumn(0)
 				.setPreferredWidth(25);
@@ -156,21 +165,34 @@ public class ListFrame extends JFrame implements DocumentListener {
 		pTable.add(spTable);
 	}
 
+	/**
+	 * Metoda wykonywana podczas dokonywana edycji w polu tekstowym `tfSearch`
+	 */
 	@Override
 	public void insertUpdate(DocumentEvent e) {
 		onSearchFieldValueChanged();
 	}
 
+	/**
+	 * Metoda wykonywana podczas dokonywana edycji w polu tekstowym `tfSearch`
+	 */
 	@Override
 	public void removeUpdate(DocumentEvent e) {
 		onSearchFieldValueChanged();
 	}
+
+	/**
+	 * Metoda wykonywana podczas dokonywana edycji w polu tekstowym `tfSearch`
+	 */
 
 	@Override
 	public void changedUpdate(DocumentEvent e) {
 		onSearchFieldValueChanged();
 	}
 
+	/**
+	 * Metoda wykonywana podczas dokonywana edycji w polu tekstowym `tfSearch`
+	 */
 	void onSearchFieldValueChanged() {
 		String text = tfSearch.getText();
 		if (!text.isEmpty()) {
@@ -181,11 +203,20 @@ public class ListFrame extends JFrame implements DocumentListener {
 
 	}
 
+	/**
+	 * Metoda wykonywana podczas dokonywana zmian w tabeli np, dodanie wiersza,
+	 * zmiany zawartości komórki
+	 */
 	void onTableChanged(TableModelEvent e) {
 		System.out.println("onTableChanged");
 		storage.setElements(dataModel.getElements());
 	}
 
+	/**
+	 * Słuchasz naciśniecia przycisku "Add"
+	 * 
+	 * @param ev
+	 */
 	void onButtonAdd(ActionEvent ev) {
 		Magazine m = new Magazine("", 1, 2000);
 		String[] suggestions = storage.getAllUniquesTitles();
@@ -199,18 +230,33 @@ public class ListFrame extends JFrame implements DocumentListener {
 		frame.setVisible(true);
 	}
 
+	/**
+	 * Słuchasz naciśniecia przycisku "Delete"
+	 * 
+	 * @param ev
+	 */
 	void onButtonDelete(ActionEvent ev) {
 		List<Magazine> selected = dataModel.getSelectedElements();
 		System.out.println(selected);
 		dataModel.removeAll(selected);
 	}
 
+	/**
+	 * Słuchasz naciśniecia przycisku "Stats per Title"
+	 * 
+	 * @param ev
+	 */
 	void onButtonStatsPerTitle(ActionEvent ev) {
 		List<Magazine> all = storage.getAll();
 		StatsStrategy strategy = new CountByTitle(all);
 		new StatsFrame(strategy).setVisible(true);
 	}
 
+	/**
+	 * Słuchasz naciśniecia przycisku "Stats per Year"
+	 * 
+	 * @param ev
+	 */
 	void onButtonStatsPerYear(ActionEvent ev) {
 		List<Magazine> all = storage.getAll();
 		StatsStrategy strategy = new CountByYear(all);

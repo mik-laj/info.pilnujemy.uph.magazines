@@ -1,11 +1,14 @@
 package info.pilnujemy.uph.magazines.filter;
 
-import java.util.Arrays;
-
 import javax.swing.RowFilter;
 
 import info.pilnujemy.uph.magazines.Utils;
 
+/**
+ * Tworzy inteligenty filtr wyszukiwania liczb. Patrz dokumentacja
+ * 
+ * @author andrzej
+ */
 public class SmartNumberRowFilter<M, I> extends RowFilter<M, I> {
 	private RowFilter<M, I> filter;
 

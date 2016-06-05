@@ -4,6 +4,11 @@ import java.util.regex.Pattern;
 
 import javax.swing.RowFilter;
 
+/**
+ * Tworzy inteligentny filtr tekstowy
+ * 
+ * @author andrzej
+ */
 public class SmartTextRowFilter<M, I> extends RowFilter<M, I> {
 
 	private RowFilter<Object, Object> filter;
@@ -11,7 +16,7 @@ public class SmartTextRowFilter<M, I> extends RowFilter<M, I> {
 	public SmartTextRowFilter(String keyword, int index) {
 		super();
 		String pattern = Pattern.quote(keyword);
-		// Pattern.CASE_INSENSITIVE 	(?i)
+		// Pattern.CASE_INSENSITIVE (?i)
 		pattern = "(?i)" + pattern.replace("*", "\\E.+\\Q");
 		System.out.println(pattern);
 		this.filter = RowFilter.regexFilter(pattern, index);

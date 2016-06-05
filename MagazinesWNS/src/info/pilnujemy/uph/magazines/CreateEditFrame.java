@@ -6,7 +6,6 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,15 +18,27 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.NumberFormatter;
 
-import info.pilnujemy.uph.magazines.model.FakeData;
 import info.pilnujemy.uph.magazines.model.Magazine;
 
+/**
+ * Okno twoerzenia i edycji czasopisma
+ * 
+ * @author andrzej
+ *
+ */
 public class CreateEditFrame extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3561794417438814934L;
 
+	/**
+	 * Interfejs pozwalajaący określić słuchasz, który wykona się po naciśnieciu
+	 * przycsku zapisania
+	 * 
+	 * @author andrzej
+	 *
+	 */
 	public interface onSaveClickListener {
 		void onSaveClicked(Magazine m);
 	}
@@ -40,12 +51,15 @@ public class CreateEditFrame extends JFrame {
 	private onSaveClickListener listener;
 	private String[] suggestion;
 
+	/**
+	 * Tworzy okno
+	 */
 	public CreateEditFrame() {
 		this(new Magazine("", 1, 2000), new String[] {});
 	}
 
 	/**
-	 * Create the frame.
+	 * Tworzy okno.
 	 */
 	public CreateEditFrame(Magazine magazine, String[] suggestion) {
 		this.magazine = magazine;
@@ -102,6 +116,9 @@ public class CreateEditFrame extends JFrame {
 		setLocationRelativeTo(null);
 	}
 
+	/**
+	 * Słuchasz naciśniecia przycisku zapisania
+	 */
 	private void onSaveButton(ActionEvent e) {
 		if (!validateForm()) {
 			return;
@@ -116,6 +133,11 @@ public class CreateEditFrame extends JFrame {
 		notifyListener();
 	}
 
+	/**
+	 * Walidacja formularza
+	 * 
+	 * @return jeśli prawidłowy to true
+	 */
 	private boolean validateForm() {
 		String title = (String) cbTitle.getEditor()
 				.getItem();
@@ -151,12 +173,20 @@ public class CreateEditFrame extends JFrame {
 		return true;
 	}
 
+	/**
+	 * Jeśli jest ustawiony to uruchamia słuchasza naciśniecia przycisku
+	 */
 	private void notifyListener() {
 		if (this.listener != null) {
 			listener.onSaveClicked(magazine);
 		}
 	}
 
+	/**
+	 * Ustawia słuchacza naciśniecia przycisku w oknie
+	 * 
+	 * @param listener
+	 */
 	public void setSaveListener(onSaveClickListener listener) {
 		this.listener = listener;
 	}
