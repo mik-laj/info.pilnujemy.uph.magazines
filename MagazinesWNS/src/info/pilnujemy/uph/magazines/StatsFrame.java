@@ -72,9 +72,13 @@ public class StatsFrame extends JFrame {
 		table = new JTable();
 		table.setFillsViewportHeight(true);
 		table.setAutoCreateRowSorter(true);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		JPanel borderPane = new JPanel();
+		borderPane.setBorder(new EmptyBorder(10, 10, 10, 10));
+		borderPane.setLayout(new BoxLayout(borderPane, BoxLayout.X_AXIS));
+		borderPane.add(scrollPane);
+		getContentPane().add(borderPane, BorderLayout.CENTER);
 		scrollPane.setViewportView(table);
 
 		DefaultTableModel dataModel = new DefaultTableModel(strategy.getRows(), strategy.getColumnNames()) {
